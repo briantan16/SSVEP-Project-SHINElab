@@ -13,26 +13,11 @@ overall_str = ""
 
 
 
-def layer_1(t):
-    c.pack_forget()
-    print(t)
-    if t == "a_f":
-        c1.pack(pady = 120, padx=10)
-    elif t == "g_l":
-        c2.pack(pady = 120, padx=10)
-    elif t == "m_r":
-        c3.pack(pady = 120, padx=10)
-    elif t == "s_z":
-        c4.pack(pady = 120, padx=10)
-
 c = tk.Canvas(master, width=700, height=700, bg="black")
-c1 = tk.Canvas(master, width=700, height=700, bg="black")
-c2 = tk.Canvas(master, width=700, height=700, bg="black")
-c3 = tk.Canvas(master, width=700, height=700, bg="black")
-c4 = tk.Canvas(master, width=700, height=700, bg="black")
+
 c.pack(pady = 120, padx=10)
 
-q1_bool, q2_bool, q3_bool, q4_bool = True, True, True, True
+q1_bool, q2_bool, q3_bool, q4_bool, sp_bool = True, True, True, True, True
 
 q1_text = tk.Label(c, text="A, B, C, D, E, F", bg="grey")
 q1_text.place(x=157.5-28, y=85+10)
@@ -42,6 +27,16 @@ q3_text = tk.Label(c, text="M, N, O, P, Q, R", bg="grey")
 q3_text.place(x=157.5-28, y=85+10+230)
 q4_text = tk.Label(c, text="S, T, U, V, W, X, Y, Z", bg="grey")
 q4_text.place(x=157.5-28+330, y=85+10+230)
+
+def make_sp():
+    global sp, sp_bool
+    if sp_bool:
+        sp = c.create_rectangle(40+20,20+20,295+20+20,190+20,fill="red")
+    master.after(33, unmake_sp)
+
+def unmake_sp():
+    c.delete(sp)
+    master.after(33, make_sp) 
 
 def make_q1():
     global q1, q1_bool
@@ -82,6 +77,7 @@ def make_q4():
 def unmake_q4():
     c.delete(q4)
     master.after(100, make_q4)  
+
 
 make_q1()
 make_q2()
@@ -185,8 +181,21 @@ q4_b.place(x=900, y = 470+50)
 
 #lambda: layer_3(32, None)
 
-sp = tkinter.Button(master, text="Space", background='blue', height=3, width=30, command= lambda: layer_3(32, None), padx=10)
-sp.place(relx=0.365, y=580)
+def space():
+    global overall_str, txt
+    overall_str += " "
+    print(overall_str)
+    txt.config(text=overall_str)
+
+def delete():
+    global overall_str, txt
+    overall_str = overall_str[:-1]
+    txt.config(text=overall_str)
+
+sp = tkinter.Button(master, text="Space", background='blue', height=3, width=30, command= lambda: space(), padx=10)
+sp.place(x=170, y=600)
+de = tkinter.Button(master, text="Delete", background='blue', height=3, width=30, command= lambda: delete(), padx=10)
+de.place(x=530, y=600)
 
 
 
@@ -196,7 +205,3 @@ txt.place(relx=0.5, y=50, anchor="center")
 
 master.configure(background='black')
 master.mainloop()
-
-counter = 0
-print(counter)
-counter += 1
